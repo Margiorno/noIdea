@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
                 .location(environment.getField().getSourceLocation())
                 .extensions(Map.of(
                         "errorCode", "INVALID_CREDENTIALS",
-                        "classification", ErrorType.UNAUTHORIZED
+                        "classification", ErrorType.BAD_REQUEST
                 )).build();
     }
 }

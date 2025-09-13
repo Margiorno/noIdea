@@ -1,13 +1,25 @@
 type Mutation {
-    login(loginRequest: LoginRequestDTO!): AuthResponseDTO
+    login(loginRequest: LoginRequestDTO!): LoginResponseDTO
+    register(registerRequest: RegisterRequestDTO!): RegisterResponseDTO
 }
 
-type AuthResponseDTO{
+
+input LoginRequestDTO{
+email: String!
+password: String!
+}
+
+type LoginResponseDTO{
     token: String!
     expiresAt: String!
 }
 
-input LoginRequestDTO {
+input RegisterRequestDTO{
     email: String!
     password: String!
+#    TODO to extend in future (communication with different microservice needed)
+}
+
+type RegisterResponseDTO{
+    id: String!
 }

@@ -1,10 +1,10 @@
 package com.pm.noidea.identityservice.exception;
 
-import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
 import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
+import org.springframework.graphql.execution.ErrorType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.Map;
@@ -12,8 +12,8 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @GraphQlExceptionHandler
-    public GraphQLError handleUserNotFoundException(
-            UserNotFoundException exception,
+    public GraphQLError handleInvalidCredentialsException(
+            InvalidCredentialsException exception,
             DataFetchingEnvironment environment
     ) {
         return GraphqlErrorBuilder.newError()
@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
                 .path(environment.getExecutionStepInfo().getPath())
                 .location(environment.getField().getSourceLocation())
                 .extensions(Map.of(
-                        "errorCode", "EMAIL_ALREADY_EXISTS",
-                        "classification", "CONFLICT"
+                        "errorCode", "INVALID_CREDENTIALS",
+                        "classification", ErrorType.UNAUTHORIZED
                 )).build();
     }
 }

@@ -1,0 +1,13 @@
+type Mutation {
+    login(loginRequest: LoginRequestDTO!): AuthResponseDTO
+}
+
+type AuthResponseDTO{
+    token: String!
+    expiresAt: String!
+}
+
+input LoginRequestDTO {
+    email: String!
+    password: String!
+}

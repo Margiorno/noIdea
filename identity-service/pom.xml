@@ -32,6 +32,7 @@
 		<jakarta.version>3.1.1</jakarta.version>
 		<jsonwebtoken.version>0.13.0</jsonwebtoken.version>
 		<bouncycastle.version>1.81</bouncycastle.version>
+		<lang3.version>3.18.0</lang3.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -88,7 +89,15 @@
 			<artifactId>jjwt</artifactId>
 			<version>${jsonwebtoken.version}</version>
 		</dependency>
+
+		<!--TO GENERATE RANDOM STRING (CODE)-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${lang3.version}</version>
+		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>

@@ -1,5 +1,6 @@
 package com.pm.noidea.identityservice.service;
 
+import com.pm.noidea.identityservice.configuration.JwtProperties;
 import com.pm.noidea.identityservice.dto.JwtTokenDTO;
 import com.pm.noidea.identityservice.dto.LoginResponseDTO;
 import com.pm.noidea.identityservice.util.TimeFormatter;
@@ -20,18 +21,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class JwtService {
-    @Value("${application.security.jwt.secret-key}")
-    private String secretKey;
 
-    @Value("${application.security.jwt.expiration}")
-    private long jwtExpiration;
-
+    private final JwtProperties jwtProperties;
     private final TimeFormatter timeFormatter;
 
 
     public JwtTokenDTO generateToken(UUID id) {
         Instant now = timeFormatter.now();
-        Instant expiration = timeFormatter.plusMillis(now, jwtExpiration);
+        Instant expiration = now.plusMillis(jwtProperties.getExpiration().toMillis());
 
         String token = Jwts.builder()
                 .subject(id.toString())
@@ -45,7 +42,7 @@ public class JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        byte[] keyBytes = jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

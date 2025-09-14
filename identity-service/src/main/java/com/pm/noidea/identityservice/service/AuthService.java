@@ -17,6 +17,7 @@ import java.util.Optional;
 public class AuthService {
     private final AuthRepository authRepository;
     private final JwtService jwtService;
+    private final UserTokenService userTokenService;
     private PasswordEncoder passwordEncoder;
 
     public LoginResponseDTO login(String email, String password) {
@@ -42,7 +43,10 @@ public class AuthService {
 
         String hashedPassword = passwordEncoder.encode(password);
         AuthUser authUser = AuthUser.builder().email(email).hashedPassword(hashedPassword).build();
-        authRepository.save(authUser);
+        AuthUser savedUser = authRepository.save(authUser);
+
+
+
 
         //TODO more data (communication with other microservice with profile) & communication with email microservice to generate email verification code
 

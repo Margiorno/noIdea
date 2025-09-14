@@ -1,12 +1,15 @@
+type Query {
+    _dummy: String
+}
+
 type Mutation {
     login(loginRequest: LoginRequestDTO!): LoginResponseDTO
     register(registerRequest: RegisterRequestDTO!): RegisterResponseDTO
 }
 
-
 input LoginRequestDTO{
-email: String!
-password: String!
+    email: String!
+    password: String!
 }
 
 type LoginResponseDTO{

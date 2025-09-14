@@ -37,6 +37,8 @@ public class AuthService {
 
         //TODO more data (communication with other microservice with profile) & communication with email microservice to generate email verification code
 
-        return new RegisterResponseDTO(authRepository.save(authUser).getId().toString());
+        AuthUser saved = authRepository.save(authUser);
+
+        return new RegisterResponseDTO(saved.getId().toString());
     }
 }

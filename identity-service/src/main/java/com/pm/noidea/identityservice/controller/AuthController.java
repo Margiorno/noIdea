@@ -19,19 +19,13 @@ public class AuthController {
     private final AuthService authService;
 
     @MutationMapping
-    public ResponseEntity<LoginResponseDTO> login(@Argument @Valid LoginRequestDTO loginRequestDto) {
-
-        LoginResponseDTO response = authService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
-
-        return ResponseEntity.ok().body(response);
+    public LoginResponseDTO login(@Argument @Valid LoginRequestDTO loginRequest) {
+        return authService.login(loginRequest.getEmail(), loginRequest.getPassword());
     }
 
     @MutationMapping
-    public ResponseEntity<RegisterResponseDTO> register(@Argument @Valid RegisterRequestDTO registerRequestDto) {
-
-        RegisterResponseDTO responseDTO = authService.register(registerRequestDto.getEmail(), registerRequestDto.getPassword());
-
-        return ResponseEntity.ok().body(responseDTO);
+    public RegisterResponseDTO register(@Argument @Valid RegisterRequestDTO registerRequest) {
+        return authService.register(registerRequest.getEmail(), registerRequest.getPassword());
     }
 
 

@@ -2,6 +2,7 @@ package com.pm.noidea.identityservice;
 
 import com.pm.noidea.identityservice.dto.JwtTokenDTO;
 import com.pm.noidea.identityservice.dto.LoginResponseDTO;
+import com.pm.noidea.identityservice.dto.RegisterResponseDTO;
 import com.pm.noidea.identityservice.model.AuthUser;
 import com.pm.noidea.identityservice.repository.AuthRepository;
 import com.pm.noidea.identityservice.service.AuthService;
@@ -11,6 +12,7 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,8 +22,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.instancio.Select.field;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
@@ -96,5 +99,46 @@ public class AuthServiceTest {
         assertThat(result).isNotNull();
         assertThat(result.success()).isFalse();
         assertThat(result.message()).isEqualTo("User is not verified");
+    }
+
+    @Test
+    public void register_shouldSucceed_whenEmailIsNotTaken() {
+        String password = Instancio.create(String.class);
+        AuthUser user = Instancio.create(AuthUser.class);
+
+        when(authRepository.existsByEmail(user.getEmail())).thenReturn(false);
+        when(passwordEncoder.encode(password)).thenReturn(user.getHashedPassword());
+        when(authRepository.save(any(AuthUser.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        RegisterResponseDTO result = authService.register(user.getEmail(), password);
+
+        assertThat(result).isNotNull();
+        assertThat(result.success()).isTrue();
+        assertThat(result.message()).isEqualTo("Successfully registered");
+
+        ArgumentCaptor<AuthUser> userCaptor = ArgumentCaptor.forClass(AuthUser.class);
+        verify(authRepository).save(userCaptor.capture());
+
+        AuthUser capturedUser = userCaptor.getValue();
+        assertThat(capturedUser.getEmail()).isEqualTo(user.getEmail());
+        verify(userTokenService).generateAndSendVerificationCode(capturedUser);
+    }
+
+    @Test
+    public void register_shouldSFailed_whenEmailIsTaken() {
+        String password = Instancio.create(String.class);
+        AuthUser user = Instancio.create(AuthUser.class);
+
+        when(authRepository.existsByEmail(user.getEmail())).thenReturn(true);
+
+        RegisterResponseDTO result = authService.register(user.getEmail(), password);
+
+        assertThat(result).isNotNull();
+        assertThat(result.success()).isFalse();
+        assertThat(result.message()).isEqualTo("User with this email already exists");
+
+        verify(passwordEncoder, never()).encode(anyString());
+        verify(authRepository, never()).save(any(AuthUser.class));
+        verify(userTokenService, never()).generateAndSendVerificationCode(any(AuthUser.class));
     }
 }

@@ -5,6 +5,7 @@ type Query {
 type Mutation {
     login(loginRequest: LoginRequestDTO!): LoginResponseDTO
     register(registerRequest: RegisterRequestDTO!): RegisterResponseDTO
+    verifyAccount(verificationRequest: VerificationRequestDTO!): VerificationResponseDTO
 }
 
 input LoginRequestDTO{
@@ -26,6 +27,16 @@ input RegisterRequestDTO{
 }
 
 type RegisterResponseDTO{
+    success: Boolean!
+    message: String!
+}
+
+input VerificationRequestDTO{
+    email: String!
+    code: String!
+}
+
+type VerificationResponseDTO{
     success: Boolean!
     message: String!
 }

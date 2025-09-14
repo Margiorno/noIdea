@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,5 +32,5 @@ public class ActionToken {
     private ActionType actionType;
 
     @Column(nullable = false)
-    private LocalDateTime expires;
+    private Instant expires;
 }

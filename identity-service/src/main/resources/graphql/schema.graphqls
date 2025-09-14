@@ -1,0 +1,42 @@
+type Query {
+    _dummy: String
+}
+
+type Mutation {
+    login(loginRequest: LoginRequestDTO!): LoginResponseDTO
+    register(registerRequest: RegisterRequestDTO!): RegisterResponseDTO
+    verifyAccount(verificationRequest: VerificationRequestDTO!): VerificationResponseDTO
+}
+
+input LoginRequestDTO{
+    email: String!
+    password: String!
+}
+
+type LoginResponseDTO{
+    success: Boolean!
+    message: String!
+    token: String
+    expiresAt: String
+}
+
+input RegisterRequestDTO{
+    email: String!
+    password: String!
+#    TODO to extend in future (communication with different microservice needed)
+}
+
+type RegisterResponseDTO{
+    success: Boolean!
+    message: String!
+}
+
+input VerificationRequestDTO{
+    email: String!
+    code: String!
+}
+
+type VerificationResponseDTO{
+    success: Boolean!
+    message: String!
+}

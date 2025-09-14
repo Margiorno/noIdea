@@ -13,8 +13,10 @@ input LoginRequestDTO{
 }
 
 type LoginResponseDTO{
-    token: String!
-    expiresAt: String!
+    success: Boolean!
+    message: String!
+    token: String
+    expiresAt: String
 }
 
 input RegisterRequestDTO{
@@ -24,5 +26,6 @@ input RegisterRequestDTO{
 }
 
 type RegisterResponseDTO{
-    id: String!
+    success: Boolean!
+    message: String!
 }

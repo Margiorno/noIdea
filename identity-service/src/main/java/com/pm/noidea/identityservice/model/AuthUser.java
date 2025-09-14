@@ -27,4 +27,8 @@ public class AuthUser {
     @Column(nullable = false )
     @Size(min = 6, max = 20)
     private String hashedPassword;
+
+    @Column(nullable = false)
+    @Builder.Default()
+    private boolean isVerified = false;
 }

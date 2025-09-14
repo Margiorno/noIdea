@@ -1,5 +1,6 @@
 package com.pm.noidea.identityservice.service;
 
+import com.pm.noidea.identityservice.dto.JwtTokenDTO;
 import com.pm.noidea.identityservice.dto.LoginResponseDTO;
 import com.pm.noidea.identityservice.util.TimeFormatter;
 import io.jsonwebtoken.security.Keys;
@@ -11,7 +12,9 @@ import io.jsonwebtoken.Jwts;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.AbstractMap;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -26,7 +29,7 @@ public class JwtService {
     private final TimeFormatter timeFormatter;
 
 
-    public LoginResponseDTO generateToken(UUID id) {
+    public JwtTokenDTO generateToken(UUID id) {
         Instant now = timeFormatter.now();
         Instant expiration = timeFormatter.plusMillis(now, jwtExpiration);
 
@@ -38,7 +41,7 @@ public class JwtService {
                 .compact();
 
         String formattedExpiration = timeFormatter.formatInstant(expiration);
-        return new LoginResponseDTO(token, formattedExpiration);
+        return new JwtTokenDTO(token, formattedExpiration);
     }
 
     private SecretKey getSignInKey() {

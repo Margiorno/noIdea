@@ -15,6 +15,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -44,8 +45,22 @@ public class UserTokenService {
         //TODO COMMUNICATION WITH EMAIL MICROSERVICE
     }
 
+    public boolean verifyUser(AuthUser user, String code) {
+        return actionTokenRepository
+                .findByActionTypeAndUser(ActionType.ACCOUNT_VERIFICATION, user)
+                .filter(token -> !token.getExpires().isBefore(Instant.now()))
+                .filter(token -> token.getToken().equals(code))
+                .map(token -> {
+                    actionTokenRepository.delete(token);
+                    return true;
+                })
+                .orElse(false);
+    }
+
     private String generateCode(){
         RandomStringUtils generator = RandomStringUtils.insecure();
         return generator.next(6, 'A', 'Z' + 1, false, false);
     }
+
+
 }

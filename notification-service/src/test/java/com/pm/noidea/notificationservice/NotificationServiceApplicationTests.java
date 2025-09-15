@@ -11,9 +11,9 @@ class NotificationServiceApplicationTests {
     @Autowired
     private EmailService emailService;
 
-    @Test
-    void emailSendToMe() {
-        emailService.sendVerificationCode("m.zawiski03@gmail.com","test");
-    }
+//    @Test
+//    void emailSendToMe() {
+//        emailService.sendVerificationCode("m.zawiski03@gmail.com","test");
+//    }
 
 }

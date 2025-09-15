@@ -3,6 +3,7 @@ package com.pm.noidea.identityservice.service;
 import com.pm.noidea.identityservice.dto.JwtTokenDTO;
 import com.pm.noidea.identityservice.dto.LoginResponseDTO;
 import com.pm.noidea.identityservice.dto.RegisterResponseDTO;
+import com.pm.noidea.identityservice.dto.VerificationResponseDTO;
 import com.pm.noidea.identityservice.exception.InvalidCredentialsException;
 import com.pm.noidea.identityservice.model.AuthUser;
 import com.pm.noidea.identityservice.repository.AuthRepository;
@@ -45,11 +46,24 @@ public class AuthService {
         AuthUser authUser = AuthUser.builder().email(email).hashedPassword(hashedPassword).build();
         AuthUser savedUser = authRepository.save(authUser);
 
-
-
-
-        //TODO more data (communication with other microservice with profile) & communication with email microservice to generate email verification code
+        userTokenService.generateAndSendVerificationCode(savedUser);
 
         return new RegisterResponseDTO(true, "Successfully registered");
+    }
+
+    public VerificationResponseDTO verifyAccount(String email, String code) {
+
+        return authRepository.findByEmail(email)
+                .map(user -> {
+                    if (!userTokenService.verifyUser(user, code)) {
+                        return new VerificationResponseDTO(false, "Invalid verification code");
+                    }
+
+                    user.setVerified(true);
+                    authRepository.save(user);
+
+                    return new VerificationResponseDTO(true, "Successfully verified");
+                })
+                .orElse(new VerificationResponseDTO(false, "User not found"));
     }
 }

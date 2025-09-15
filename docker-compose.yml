@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  identity-service:
+    build: ./identity-service
+    container_name: identity-service
+    ports:
+      - "12000:12000"
+    networks:
+      - noidea-network
+    environment:
+      SERVER_PORT: 12000
+      APPLICATION_SECURITY_JWT_SECRET_KEY: VGhpcy1pcy1teS1zZWN1cmUta2V5LTI1Ni1iaXRzLWxvbmc=
+      APPLICATION_SECURITY_JWT_EXPIRATION: 1h
+      APPLICATION_ACTION_TOKEN_VERIFICATION_EXPIRATION: 15m
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    ports:
+      - "12001:12001"
+    networks:
+      - noidea-network
+    environment:
+      SERVER_PORT: 12001
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: noidea.app.sender@gmail.com
+      SPRING_MAIL_PASSWORD: mlkn cjrd uimg txby
+
+networks:
+  noidea-network:
+    driver: bridge

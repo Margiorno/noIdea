@@ -25,7 +25,6 @@ public class AuthUser {
     private String email;
 
     @Column(nullable = false )
-    @Size(min = 6, max = 20)
     private String hashedPassword;
 
     @Column(nullable = false)

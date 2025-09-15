@@ -1,9 +1,6 @@
 package com.pm.noidea.identityservice.controller;
 
-import com.pm.noidea.identityservice.dto.LoginResponseDTO;
-import com.pm.noidea.identityservice.dto.LoginRequestDTO;
-import com.pm.noidea.identityservice.dto.RegisterRequestDTO;
-import com.pm.noidea.identityservice.dto.RegisterResponseDTO;
+import com.pm.noidea.identityservice.dto.*;
 import com.pm.noidea.identityservice.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -26,6 +23,11 @@ public class AuthController {
     @MutationMapping
     public RegisterResponseDTO register(@Argument @Valid RegisterRequestDTO registerRequest) {
         return authService.register(registerRequest.getEmail(), registerRequest.getPassword());
+    }
+
+    @MutationMapping
+    public VerificationResponseDTO activate(@Argument @Valid VerificationRequestDTO verificationRequest) {
+        return authService.verifyAccount(verificationRequest.getEmail(), verificationRequest.getCode());
     }
 
 

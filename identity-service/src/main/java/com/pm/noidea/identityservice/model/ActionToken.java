@@ -1,6 +1,7 @@
 package com.pm.noidea.identityservice.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +24,7 @@ public class ActionToken {
     @Column(nullable = false)
     private String token;
 
-    @Column(nullable = false)
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private AuthUser user;
 

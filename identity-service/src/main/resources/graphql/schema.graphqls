@@ -5,7 +5,7 @@ type Query {
 type Mutation {
     login(loginRequest: LoginRequestDTO!): LoginResponseDTO
     register(registerRequest: RegisterRequestDTO!): RegisterResponseDTO
-    verifyAccount(verificationRequest: VerificationRequestDTO!): VerificationResponseDTO
+    activate(verificationRequest: VerificationRequestDTO!): VerificationResponseDTO
 }
 
 input LoginRequestDTO{

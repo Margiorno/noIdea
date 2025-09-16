@@ -20,7 +20,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build identity-service with Maven
-        run: ./identity-service/mvnw -f ./identity-service/pom.xml clean install
+        run: chmod +x ./identity-service/mvnw -f ./identity-service/pom.xml clean install
 
       - name: Build notification-service with Maven
-        run: ./notification-service/mvnw -f ./notification-service/pom.xml clean install
+        run: chmod +x ./notification-service/mvnw -f ./notification-service/pom.xml clean install

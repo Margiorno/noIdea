@@ -2,39 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>com.pm.noidea</groupId>
+		<artifactId>noidea-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.pm.noIdea</groupId>
+
 	<artifactId>identity-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>identity-service</name>
 	<description>identity-service</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
-	<properties>
-		<java.version>17</java.version>
-		<lombok.version>1.18.38</lombok.version>
-		<jakarta.version>3.1.1</jakarta.version>
-		<jsonwebtoken.version>0.13.0</jsonwebtoken.version>
-		<bouncycastle.version>1.81</bouncycastle.version>
-		<lang3.version>3.18.0</lang3.version>
-		<kickstart.version>11.1.0</kickstart.version>
-	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

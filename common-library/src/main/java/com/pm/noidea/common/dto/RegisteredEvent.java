@@ -1,4 +1,4 @@
-package com.pm.noidea.notificationservice.dto;
+package com.pm.noidea.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

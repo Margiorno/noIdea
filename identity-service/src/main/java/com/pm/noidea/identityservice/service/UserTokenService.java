@@ -1,8 +1,9 @@
 package com.pm.noidea.identityservice.service;
 
+import com.pm.noidea.common.dto.RegisteredEvent;
 import com.pm.noidea.identityservice.configuration.ActionTokenProperties;
 import com.pm.noidea.identityservice.configuration.RabbitMqConfig;
-import com.pm.noidea.identityservice.dto.RegisteredEvent;
+import com.pm.noidea.identityservice.configuration.RabbitMqProperties;
 import com.pm.noidea.identityservice.model.ActionToken;
 import com.pm.noidea.identityservice.model.ActionType;
 import com.pm.noidea.identityservice.model.AuthUser;
@@ -24,6 +25,7 @@ public class UserTokenService {
     private final ActionTokenProperties actionTokenProperties;
     private final ActionTokenRepository actionTokenRepository;
     private final RabbitTemplate rabbitTemplate;
+    private final RabbitMqProperties rabbitMqProperties;
 
     public void generateAndSendVerificationCode(AuthUser authUser) {
         //CLEANING
@@ -45,8 +47,8 @@ public class UserTokenService {
                 new RegisteredEvent(authUser.getEmail(), code);
 
         rabbitTemplate.convertAndSend(
-                RabbitMqConfig.EXCHANGE,
-                RabbitMqConfig.REGISTER_EVENT_ROUTING_KEY,
+                rabbitMqProperties.getExchangeName(),
+                rabbitMqProperties.getRegisteredEventRoutingKey(),
                 event
         );
     }

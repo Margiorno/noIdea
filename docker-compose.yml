@@ -20,11 +20,20 @@ services:
       - "12000:12000"
     networks:
       - noidea-network
+    depends_on:
+      - rabbitmq
     environment:
       SERVER_PORT: 12000
+
       APPLICATION_SECURITY_JWT_SECRET_KEY: VGhpcy1pcy1teS1zZWN1cmUta2V5LTI1Ni1iaXRzLWxvbmc=
       APPLICATION_SECURITY_JWT_EXPIRATION: 1h
       APPLICATION_ACTION_TOKEN_VERIFICATION_EXPIRATION: 15m
+
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: user
+      SPRING_RABBITMQ_PASSWORD: password
+
 
   notification-service:
     build: ./notification-service

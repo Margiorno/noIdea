@@ -1,22 +1,20 @@
 package com.pm.noidea.identityservice.service;
 
 import com.pm.noidea.identityservice.configuration.ActionTokenProperties;
+import com.pm.noidea.identityservice.configuration.RabbitMqConfig;
+import com.pm.noidea.identityservice.dto.RegisteredEvent;
 import com.pm.noidea.identityservice.model.ActionToken;
 import com.pm.noidea.identityservice.model.ActionType;
 import com.pm.noidea.identityservice.model.AuthUser;
 import com.pm.noidea.identityservice.repository.ActionTokenRepository;
 import com.pm.noidea.identityservice.util.TimeFormatter;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +23,7 @@ public class UserTokenService {
     private final TimeFormatter timeFormatter;
     private final ActionTokenProperties actionTokenProperties;
     private final ActionTokenRepository actionTokenRepository;
+    private final RabbitTemplate rabbitTemplate;
 
     public void generateAndSendVerificationCode(AuthUser authUser) {
         //CLEANING
@@ -42,7 +41,14 @@ public class UserTokenService {
 
         actionTokenRepository.save(actionToken);
 
-        //TODO COMMUNICATION WITH EMAIL MICROSERVICE
+        RegisteredEvent event =
+                new RegisteredEvent(authUser.getEmail(), code);
+
+        rabbitTemplate.convertAndSend(
+                RabbitMqConfig.EXCHANGE,
+                RabbitMqConfig.REGISTER_EVENT_ROUTING_KEY,
+                event
+        );
     }
 
     public boolean verifyUser(AuthUser user, String code) {

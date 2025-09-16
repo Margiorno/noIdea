@@ -1,4 +1,4 @@
-package com.pm.noidea.identityservice.dto;
+package com.pm.noidea.notificationservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

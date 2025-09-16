@@ -42,12 +42,20 @@ services:
       - "12001:12001"
     networks:
       - noidea-network
+    depends_on:
+      - rabbitmq
     environment:
       SERVER_PORT: 12001
+
       SPRING_MAIL_HOST: smtp.gmail.com
       SPRING_MAIL_PORT: 587
       SPRING_MAIL_USERNAME: noidea.app.sender@gmail.com
       SPRING_MAIL_PASSWORD: mlkn cjrd uimg txby
+
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: user
+      SPRING_RABBITMQ_PASSWORD: password
 
 networks:
   noidea-network:

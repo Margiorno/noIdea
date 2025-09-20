@@ -16,6 +16,8 @@ public class IdentityEventConsumer {
 
     @RabbitListener(queues = "#{rabbitMqProperties.getRegisteredEventTopic()}")
     public void processRegisteredEvent(RegisteredEvent event) {
+        System.out.println("Received: " + event);
+
         emailService.sendVerificationCode(event.getEmail(), event.getCode());
     }
 }

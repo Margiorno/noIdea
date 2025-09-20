@@ -27,7 +27,7 @@ public class UserTokenService {
     private final RabbitTemplate rabbitTemplate;
     private final RabbitMqProperties rabbitMqProperties;
 
-    public void generateAndSendVerificationCode(AuthUser authUser) {
+    public String generateVerificationCode(AuthUser authUser) {
         //CLEANING
         actionTokenRepository.deleteByActionTypeAndUser(ActionType.ACCOUNT_VERIFICATION, authUser);
 
@@ -43,14 +43,7 @@ public class UserTokenService {
 
         actionTokenRepository.save(actionToken);
 
-        RegisteredEvent event =
-                new RegisteredEvent(authUser.getEmail(), code);
-
-        rabbitTemplate.convertAndSend(
-                rabbitMqProperties.getExchangeName(),
-                rabbitMqProperties.getRegisteredEventRoutingKey(),
-                event
-        );
+        return code;
     }
 
     public boolean verifyUser(AuthUser user, String code) {

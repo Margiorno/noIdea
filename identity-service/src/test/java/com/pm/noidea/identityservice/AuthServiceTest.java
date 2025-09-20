@@ -1,5 +1,6 @@
 package com.pm.noidea.identityservice;
 
+import com.pm.noidea.common.dto.UserVerifiedEvent;
 import com.pm.noidea.identityservice.dto.JwtTokenDTO;
 import com.pm.noidea.identityservice.dto.LoginResponseDTO;
 import com.pm.noidea.identityservice.dto.RegisterResponseDTO;
@@ -8,6 +9,7 @@ import com.pm.noidea.identityservice.model.AuthUser;
 import com.pm.noidea.identityservice.repository.AuthRepository;
 import com.pm.noidea.identityservice.service.AuthService;
 import com.pm.noidea.identityservice.service.JwtService;
+import com.pm.noidea.identityservice.service.RabbitEventSenderService;
 import com.pm.noidea.identityservice.service.UserTokenService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,9 +19,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.instancio.Select.field;
@@ -33,6 +37,7 @@ public class AuthServiceTest {
     @Mock JwtService jwtService;
     @Mock UserTokenService userTokenService;
     @Mock PasswordEncoder passwordEncoder;
+    @Mock RabbitEventSenderService rabbitEventSenderService;
 
     @InjectMocks
     AuthService authService;
@@ -110,6 +115,7 @@ public class AuthServiceTest {
         when(authRepository.existsByEmail(user.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(password)).thenReturn(user.getHashedPassword());
         when(authRepository.save(any(AuthUser.class))).thenAnswer(invocation -> invocation.getArgument(0));
+//        doNothing().when(rabbitEventSenderService).sendUserRegisteredEvent(anyString(), anyString());
 
         RegisterResponseDTO result = authService.register(user.getEmail(), password);
 
@@ -122,7 +128,7 @@ public class AuthServiceTest {
 
         AuthUser capturedUser = userCaptor.getValue();
         assertThat(capturedUser.getEmail()).isEqualTo(user.getEmail());
-        verify(userTokenService).generateAndSendVerificationCode(capturedUser);
+        verify(userTokenService).generateVerificationCode(capturedUser);
     }
 
     @Test
@@ -140,7 +146,7 @@ public class AuthServiceTest {
 
         verify(passwordEncoder, never()).encode(anyString());
         verify(authRepository, never()).save(any(AuthUser.class));
-        verify(userTokenService, never()).generateAndSendVerificationCode(any(AuthUser.class));
+        verify(userTokenService, never()).generateVerificationCode(any(AuthUser.class));
     }
 
     @Test
@@ -152,6 +158,8 @@ public class AuthServiceTest {
 
         when(authRepository.findByEmail(unverifiedUser.getEmail())).thenReturn(Optional.of(unverifiedUser));
         when(userTokenService.verifyUser(unverifiedUser, code)).thenReturn(true);
+        doNothing().when(rabbitEventSenderService).sendUserVerifiedEvent(any(UUID.class));
+
 
         VerificationResponseDTO result = authService.verifyAccount(unverifiedUser.getEmail(), code);
 

@@ -12,6 +12,11 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   identity-service:
     build: ./identity-service
@@ -21,7 +26,8 @@ services:
     networks:
       - noidea-network
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     environment:
       SERVER_PORT: 12000
 
@@ -43,7 +49,8 @@ services:
     networks:
       - noidea-network
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     environment:
       SERVER_PORT: 12001
 

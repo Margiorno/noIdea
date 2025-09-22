@@ -1,42 +1,23 @@
 type Query {
-    _dummy: String
+    findAllMovies: [MovieResponseDTO!]!
 }
 
 type Mutation {
-    login(loginRequest: LoginRequestDTO!): LoginResponseDTO
-    register(registerRequest: RegisterRequestDTO!): RegisterResponseDTO
-    activate(verificationRequest: VerificationRequestDTO!): VerificationResponseDTO
+    addMovie(movieRequest: MovieRequestDTO!): MovieCreationResponseDTO
 }
 
-input LoginRequestDTO{
-    email: String!
-    password: String!
+input MovieRequestDTO{
+    title: String!
 }
 
-type LoginResponseDTO{
+type MovieResponseDTO{
+    id: String
+    title: String
+}
+
+type MovieCreationResponseDTO{
     success: Boolean!
     message: String!
-    token: String
-    expiresAt: String
-}
-
-input RegisterRequestDTO{
-    email: String!
-    password: String!
-    #    TODO to extend in future (communication with different microservice needed)
-}
-
-type RegisterResponseDTO{
-    success: Boolean!
-    message: String!
-}
-
-input VerificationRequestDTO{
-    email: String!
-    code: String!
-}
-
-type VerificationResponseDTO{
-    success: Boolean!
-    message: String!
+    id: String
+    title: String
 }

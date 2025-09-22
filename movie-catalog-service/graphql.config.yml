@@ -2,5 +2,5 @@ schema: src/main/resources/graphql/schema.graphqls
 extensions:
   endpoints:
     Default:
-      url: http://localhost:${MOVIE_CATALOG_PORT}/graphql
+      url: http://localhost:${env:MOVIE_CATALOG_PORT}/graphql
       introspect: false

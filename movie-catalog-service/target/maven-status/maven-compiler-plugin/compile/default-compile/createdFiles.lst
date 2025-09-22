@@ -1,0 +1,3 @@
+com\pm\noidea\moviecatologservice\dto\MovieRequestDTO.class
+com\pm\noidea\moviecatologservice\controller\MovieCatalogController.class
+com\pm\noidea\moviecatologservice\dto\MovieResponseDTO.class

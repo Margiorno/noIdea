@@ -6,12 +6,11 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 @AllArgsConstructor
 @Controller
-public class AuthController {
+public class IdentityController {
 
     private final AuthService authService;
 

@@ -82,6 +82,24 @@ services:
       SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
       SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
 
+  activity-tracking-command-service:
+    build: ./activity-tracking-command-service
+    container_name: activity-tracking-command-service
+    ports:
+      - "${ACTIVITY_TRACKING_COMMAND_SERVICE_PORT}:${ACTIVITY_TRACKING_COMMAND_SERVICE_INTERNAL_PORT}"
+    networks:
+      - noidea-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: ${MOVIE_CATALOG_SERVICE_INTERNAL_PORT}
+
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
+
 networks:
   noidea-network:
     driver: bridge

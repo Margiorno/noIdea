@@ -5,13 +5,13 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "${RABBITMQ_NODE_PORT}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
     networks:
       - noidea-network
     environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
     healthcheck:
       test: [ "CMD", "rabbitmqctl", "status" ]
       interval: 10s
@@ -22,47 +22,47 @@ services:
     build: ./identity-service
     container_name: identity-service
     ports:
-      - "12000:12000"
+      - "${IDENTITY_SERVICE_PORT}:${IDENTITY_SERVICE_INTERNAL_PORT}"
     networks:
       - noidea-network
     depends_on:
       rabbitmq:
         condition: service_healthy
     environment:
-      SERVER_PORT: 12000
+      SERVER_PORT: ${IDENTITY_SERVICE_INTERNAL_PORT}
 
-      APPLICATION_SECURITY_JWT_SECRET_KEY: VGhpcy1pcy1teS1zZWN1cmUta2V5LTI1Ni1iaXRzLWxvbmc=
-      APPLICATION_SECURITY_JWT_EXPIRATION: 1h
-      APPLICATION_ACTION_TOKEN_VERIFICATION_EXPIRATION: 15m
+      APPLICATION_SECURITY_JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      APPLICATION_SECURITY_JWT_EXPIRATION: ${JWT_EXPIRATION}
+      APPLICATION_ACTION_TOKEN_VERIFICATION_EXPIRATION: ${ACTION_TOKEN_EXPIRATION}
 
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: user
-      SPRING_RABBITMQ_PASSWORD: password
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
 
 
   notification-service:
     build: ./notification-service
     container_name: notification-service
     ports:
-      - "12001:12001"
+      - "${NOTIFICATION_SERVICE_PORT}:${NOTIFICATION_SERVICE_INTERNAL_PORT}"
     networks:
       - noidea-network
     depends_on:
       rabbitmq:
         condition: service_healthy
     environment:
-      SERVER_PORT: 12001
+      SERVER_PORT: ${NOTIFICATION_SERVICE_INTERNAL_PORT}
 
-      SPRING_MAIL_HOST: smtp.gmail.com
-      SPRING_MAIL_PORT: 587
-      SPRING_MAIL_USERNAME: noidea.app.sender@gmail.com
-      SPRING_MAIL_PASSWORD: mlkn cjrd uimg txby
+      SPRING_MAIL_HOST: ${MAIL_HOST}
+      SPRING_MAIL_PORT: ${MAIL_PORT}
+      SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
+      SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
 
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: user
-      SPRING_RABBITMQ_PASSWORD: password
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
 
 networks:
   noidea-network:

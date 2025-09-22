@@ -1,6 +1,6 @@
 package com.pm.noidea.moviecatologservice.service;
 
-import com.pm.noidea.common.movie.events.MovieAddedEvent;
+import com.pm.noidea.common.movie.messages.MovieAddedMessage;
 import com.pm.noidea.moviecatologservice.config.RabbitMqProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,8 +16,8 @@ public class RabbitEventSenderService {
     private final RabbitMqProperties rabbitMqProperties;
 
     public void sendMovieAddedEvent(UUID movieId) {
-        MovieAddedEvent event =
-                new MovieAddedEvent(movieId);
+        MovieAddedMessage event =
+                new MovieAddedMessage(movieId);
 
         rabbitTemplate.convertAndSend(
                 rabbitMqProperties.getExchangeName(),

@@ -1,4 +1,4 @@
-package com.pm.noidea.common.user.events;
+package com.pm.noidea.common.user.messages;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserRegisteredEvent {
+public class UserRegisteredMessage {
     private String email;
     private String code;
 }

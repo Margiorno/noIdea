@@ -1,4 +1,4 @@
-package com.pm.noidea.common.user.events;
+package com.pm.noidea.common.movie.messages;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserVerifiedEvent {
-    private UUID userId;
+public class MovieAddedMessage {
+    private UUID id;
 }

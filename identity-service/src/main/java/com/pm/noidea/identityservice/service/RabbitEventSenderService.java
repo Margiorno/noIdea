@@ -1,7 +1,7 @@
 package com.pm.noidea.identityservice.service;
 
-import com.pm.noidea.common.user.events.UserRegisteredEvent;
-import com.pm.noidea.common.user.events.UserVerifiedEvent;
+import com.pm.noidea.common.user.messages.UserRegisteredMessage;
+import com.pm.noidea.common.user.messages.UserVerifiedMessage;
 import com.pm.noidea.identityservice.configuration.RabbitMqProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,8 +17,8 @@ public class RabbitEventSenderService {
     private final RabbitMqProperties rabbitMqProperties;
 
     public void sendUserRegisteredEvent(String email, String code) {
-        UserRegisteredEvent event =
-                new UserRegisteredEvent(email, code);
+        UserRegisteredMessage event =
+                new UserRegisteredMessage(email, code);
 
         rabbitTemplate.convertAndSend(
                 rabbitMqProperties.getExchangeName(),
@@ -28,7 +28,7 @@ public class RabbitEventSenderService {
     }
 
     public void sendUserVerifiedEvent(UUID userId){
-        UserVerifiedEvent event = new UserVerifiedEvent(userId);
+        UserVerifiedMessage event = new UserVerifiedMessage(userId);
 
         rabbitTemplate.convertAndSend(
                 rabbitMqProperties.getExchangeName(),

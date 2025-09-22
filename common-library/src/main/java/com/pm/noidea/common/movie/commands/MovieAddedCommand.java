@@ -4,6 +4,6 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.util.UUID;
 
-public record AddMovieCommand(
+public record MovieAddedCommand(
         @TargetAggregateIdentifier UUID movieId
 ){}

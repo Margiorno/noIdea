@@ -1,8 +1,10 @@
 package com.pm.noidea.trackingservice.service;
 
-import com.pm.noidea.common.movie.events.MovieAddedEvent;
-import com.pm.noidea.common.user.events.UserVerifiedEvent;
+import com.pm.noidea.common.movie.commands.MovieAddedCommand;
+import com.pm.noidea.common.movie.messages.MovieAddedMessage;
+import com.pm.noidea.common.user.messages.UserVerifiedMessage;
 import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +13,15 @@ import org.springframework.stereotype.Service;
 public class RabbitMqEventConsumer {
 
     private final UserService userService;
+    private final CommandGateway commandGateway;
 
     @RabbitListener(queues = "#{rabbitMqProperties.getUserVerifiedEventTopic()}")
-    public void processVerifiedEvent(UserVerifiedEvent event) {
-        userService.saveUser(event.getUserId());
+    public void processVerifiedEvent(UserVerifiedMessage message) {
+        userService.saveUser(message.getUserId());
     }
 
     @RabbitListener(queues = "#{rabbitMqProperties.getMovieAddedEventTopic()}")
-    public void processMovieAddedEvent(MovieAddedEvent event) {
-        System.out.println("Received: " + event);
+    public void processMovieAddedEvent(MovieAddedMessage message) {
+        commandGateway.send(new MovieAddedCommand(message.getId()));
     }
 }

@@ -23,6 +23,7 @@
         <jsonwebtoken.version>0.13.0</jsonwebtoken.version>
         <bouncycastle.version>1.81</bouncycastle.version>
         <lang3.version>3.18.0</lang3.version>
+        <axon.version>4.12.1</axon.version>
     </properties>
 
     <modules>
@@ -56,11 +57,17 @@
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jsonwebtoken.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk18on</artifactId>
                 <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-bom</artifactId>
+                <version>${axon.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

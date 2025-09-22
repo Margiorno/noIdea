@@ -18,6 +18,20 @@ services:
       timeout: 5s
       retries: 5
 
+  axonserver:
+    image: axoniq/axonserver:latest
+    hostname: axonserver
+    volumes:
+      - axonserver-data:/data
+      - axonserver-eventdata:/eventdata
+    ports:
+      - "${AXON_DASHBOARD_PORT}:8024"
+      - "${AXON_GRPC_PORT}:8124"
+    networks:
+      - noidea-network
+    environment:
+      - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
+
   identity-service:
     build: ./identity-service
     container_name: identity-service
@@ -92,8 +106,10 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+      axonserver:
+        condition: service_started
     environment:
-      SERVER_PORT: ${MOVIE_CATALOG_SERVICE_INTERNAL_PORT}
+      SERVER_PORT: ${ACTIVITY_TRACKING_COMMAND_SERVICE_INTERNAL_PORT}
 
       SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
       SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
@@ -103,3 +119,7 @@ services:
 networks:
   noidea-network:
     driver: bridge
+
+volumes:
+  axonserver-data:
+  axonserver-eventdata:

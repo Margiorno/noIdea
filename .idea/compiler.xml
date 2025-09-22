@@ -20,7 +20,7 @@
         <module name="identity-service" />
         <module name="notification-service" />
       </profile>
-      <profile name="Annotation profile for movie-catalog-service" enabled="true">
+      <profile name="Annotation profile for activity-tracking-command-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -28,11 +28,13 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
         <module name="movie-catalog-service" />
+        <module name="activity-tracking-command-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="activity-tracking-command-service" options="-parameters" />
       <module name="common-dto" options="-parameters" />
       <module name="identity-service" options="-parameters" />
       <module name="movie-catalog-service" options="-parameters" />

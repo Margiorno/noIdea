@@ -16,19 +16,11 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
+        <module name="activity-tracking-command-service" />
         <module name="common-dto" />
         <module name="identity-service" />
-        <module name="notification-service" />
-      </profile>
-      <profile name="Annotation profile for activity-tracking-command-service" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
         <module name="movie-catalog-service" />
-        <module name="activity-tracking-command-service" />
+        <module name="notification-service" />
       </profile>
     </annotationProcessing>
   </component>

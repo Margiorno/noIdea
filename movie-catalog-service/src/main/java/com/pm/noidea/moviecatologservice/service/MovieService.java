@@ -15,6 +15,7 @@ import java.util.List;
 public class MovieService {
 
     public final MovieRepository repository;
+    private final RabbitEventSenderService rabbitEventSenderService;
 
     public MovieCreationResponseDTO createMovie(MovieRequestDTO movieRequestDTO) {
 
@@ -29,6 +30,8 @@ public class MovieService {
                 .build();
 
         Movie savedMovie = repository.save(movie);
+
+        rabbitEventSenderService.sendMovieAddedEvent(savedMovie.getId());
 
         return new MovieCreationResponseDTO(true,
                 "Successfully created",

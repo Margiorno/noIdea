@@ -1,4 +1,4 @@
-package com.pm.noidea.common.dto;
+package com.pm.noidea.common.user.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

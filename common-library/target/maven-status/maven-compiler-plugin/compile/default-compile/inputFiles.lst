@@ -1,2 +1,2 @@
-C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\dto\RegisteredEvent.java
-C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\dto\UserVerifiedEvent.java
+C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\user\events\UserRegisteredEvent.java
+C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\user\events\UserVerifiedEvent.java

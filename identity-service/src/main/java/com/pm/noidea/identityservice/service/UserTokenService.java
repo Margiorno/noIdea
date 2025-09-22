@@ -1,8 +1,6 @@
 package com.pm.noidea.identityservice.service;
 
-import com.pm.noidea.common.dto.RegisteredEvent;
 import com.pm.noidea.identityservice.configuration.ActionTokenProperties;
-import com.pm.noidea.identityservice.configuration.RabbitMqConfig;
 import com.pm.noidea.identityservice.configuration.RabbitMqProperties;
 import com.pm.noidea.identityservice.model.ActionToken;
 import com.pm.noidea.identityservice.model.ActionType;

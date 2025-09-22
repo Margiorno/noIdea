@@ -29,6 +29,7 @@
         <module>common-library</module>
         <module>identity-service</module>
         <module>notification-service</module>
+        <module>movie-catalog-service</module>
     </modules>
 
     <dependencyManagement>

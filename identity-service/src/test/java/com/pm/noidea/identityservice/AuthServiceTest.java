@@ -1,6 +1,5 @@
 package com.pm.noidea.identityservice;
 
-import com.pm.noidea.common.dto.UserVerifiedEvent;
 import com.pm.noidea.identityservice.dto.JwtTokenDTO;
 import com.pm.noidea.identityservice.dto.LoginResponseDTO;
 import com.pm.noidea.identityservice.dto.RegisterResponseDTO;
@@ -12,14 +11,12 @@ import com.pm.noidea.identityservice.service.JwtService;
 import com.pm.noidea.identityservice.service.RabbitEventSenderService;
 import com.pm.noidea.identityservice.service.UserTokenService;
 import org.instancio.Instancio;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;

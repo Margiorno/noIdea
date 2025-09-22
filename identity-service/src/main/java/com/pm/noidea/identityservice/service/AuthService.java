@@ -1,21 +1,16 @@
 package com.pm.noidea.identityservice.service;
 
-import com.pm.noidea.common.dto.UserVerifiedEvent;
 import com.pm.noidea.identityservice.configuration.RabbitMqProperties;
 import com.pm.noidea.identityservice.dto.JwtTokenDTO;
 import com.pm.noidea.identityservice.dto.LoginResponseDTO;
 import com.pm.noidea.identityservice.dto.RegisterResponseDTO;
 import com.pm.noidea.identityservice.dto.VerificationResponseDTO;
-import com.pm.noidea.identityservice.exception.InvalidCredentialsException;
 import com.pm.noidea.identityservice.model.AuthUser;
 import com.pm.noidea.identityservice.repository.AuthRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service

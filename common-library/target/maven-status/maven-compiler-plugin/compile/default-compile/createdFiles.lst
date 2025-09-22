@@ -1,2 +1,2 @@
-com\pm\noidea\common\dto\UserVerifiedEvent.class
-com\pm\noidea\common\dto\RegisteredEvent.class
+com\pm\noidea\common\user\events\UserVerifiedEvent.class
+com\pm\noidea\common\user\events\UserRegisteredEvent.class

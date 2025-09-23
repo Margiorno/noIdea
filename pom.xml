@@ -32,6 +32,7 @@
         <module>notification-service</module>
         <module>movie-catalog-service</module>
         <module>activity-tracking-command-service</module>
+        <module>activity-tracking-query-service</module>
     </modules>
 
     <dependencyManagement>

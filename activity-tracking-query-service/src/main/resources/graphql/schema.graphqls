@@ -1,0 +1,22 @@
+type Query {
+    getStatsAllMovies: [MovieStats!]!
+}
+
+type Mutation {
+    getMovieById(input: GetMovieStatsInput!): GetMovieStatsOutput
+}
+
+input GetMovieStatsInput {
+    movieId: String!
+}
+
+type GetMovieStatsOutput{
+    success: Boolean!
+    message: String!
+    stats: MovieStats
+}
+
+type MovieStats{
+    id: String!
+    viewsCounter: Int!
+}

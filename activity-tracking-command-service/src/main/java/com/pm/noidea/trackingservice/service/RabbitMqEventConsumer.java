@@ -1,6 +1,6 @@
 package com.pm.noidea.trackingservice.service;
 
-import com.pm.noidea.common.movie.commands.MovieAddedCommand;
+import com.pm.noidea.common.movie.commands.MovieAddCommand;
 import com.pm.noidea.common.movie.messages.MovieAddedMessage;
 import com.pm.noidea.common.user.messages.UserVerifiedMessage;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,8 @@ public class RabbitMqEventConsumer {
 
     @RabbitListener(queues = "#{rabbitMqProperties.getMovieAddedEventTopic()}")
     public void processMovieAddedEvent(MovieAddedMessage message) {
-        commandGateway.send(new MovieAddedCommand(message.getId()));
+        System.out.println(message);
+
+        commandGateway.send(new MovieAddCommand(message.getId()));
     }
 }

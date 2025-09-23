@@ -1,5 +1,7 @@
+com\pm\noidea\common\movie\events\MovieAddedEvent.class
+com\pm\noidea\common\movie\commands\ViewRegisterCommand.class
+com\pm\noidea\common\movie\commands\MovieAddCommand.class
 com\pm\noidea\common\user\messages\UserRegisteredMessage.class
 com\pm\noidea\common\user\messages\UserVerifiedMessage.class
-com\pm\noidea\common\movie\commands\MovieAddedCommand.class
-com\pm\noidea\common\movie\events\MovieAddedEvent.class
+com\pm\noidea\common\movie\events\ViewRegisteredEvent.class
 com\pm\noidea\common\movie\messages\MovieAddedMessage.class

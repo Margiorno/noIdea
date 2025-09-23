@@ -1,5 +1,7 @@
 C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\user\messages\UserRegisteredMessage.java
 C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\user\messages\UserVerifiedMessage.java
+C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\movie\commands\MovieAddCommand.java
 C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\movie\events\MovieAddedEvent.java
 C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\movie\messages\MovieAddedMessage.java
-C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\movie\commands\MovieAddedCommand.java
+C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\movie\commands\ViewRegisterCommand.java
+C:\rozwoj-osobisty\cosik\noIdea\common-library\src\main\java\com\pm\noidea\common\movie\events\ViewRegisteredEvent.java

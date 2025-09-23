@@ -21,14 +21,14 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange(rabbitMqProperties.getExchangeName());
+    public TopicExchange  exchange() {
+        return new TopicExchange (rabbitMqProperties.getExchangeName());
     }
 
     @Bean
     public Binding registeredEventBinding(
             @Qualifier("registeredEventQueue") Queue queue,
-            DirectExchange exchange) {
+            TopicExchange  exchange) {
         return BindingBuilder
                 .bind(queue)
                 .to(exchange)

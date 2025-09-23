@@ -1,0 +1,17 @@
+type Query {
+    _dummy: String
+}
+
+type Mutation {
+    registerVideoView(input: RegisterViewInput!): RegisterViewOutput
+}
+
+input RegisterViewInput {
+    userId: String!
+    movieId: String!
+}
+
+type RegisterViewOutput{
+    success: Boolean!
+    message: String!
+}

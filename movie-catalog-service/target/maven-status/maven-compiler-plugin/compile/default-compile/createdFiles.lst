@@ -1,0 +1,12 @@
+com\pm\noidea\moviecatologservice\dto\MovieRequestDTO.class
+com\pm\noidea\moviecatologservice\model\Movie.class
+com\pm\noidea\moviecatologservice\service\MovieService.class
+com\pm\noidea\moviecatologservice\MovieCatalogServiceApplication.class
+com\pm\noidea\moviecatologservice\model\Movie$MovieBuilder.class
+com\pm\noidea\moviecatologservice\service\RabbitEventSenderService.class
+com\pm\noidea\moviecatologservice\dto\MovieResponseDTO.class
+com\pm\noidea\moviecatologservice\config\RabbitMqProperties.class
+com\pm\noidea\moviecatologservice\config\RabbitMqConfig.class
+com\pm\noidea\moviecatologservice\repository\MovieRepository.class
+com\pm\noidea\moviecatologservice\dto\MovieCreationResponseDTO.class
+com\pm\noidea\moviecatologservice\controller\MovieCatalogController.class

@@ -1,7 +1,6 @@
 package com.pm.noidea.notificationservice.service;
 
-import com.pm.noidea.common.dto.RegisteredEvent;
-import com.pm.noidea.notificationservice.configuration.RabbitMqConfig;
+import com.pm.noidea.common.user.messages.UserRegisteredMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,9 @@ public class IdentityEventConsumer {
     }
 
     @RabbitListener(queues = "#{rabbitMqProperties.getRegisteredEventTopic()}")
-    public void processRegisteredEvent(RegisteredEvent event) {
+    public void processRegisteredEvent(UserRegisteredMessage event) {
+        System.out.println("Received: " + event);
+
         emailService.sendVerificationCode(event.getEmail(), event.getCode());
     }
 }

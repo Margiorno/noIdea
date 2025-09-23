@@ -7,6 +7,9 @@
         <option value="$PROJECT_DIR$/identity-service/pom.xml" />
         <option value="$PROJECT_DIR$/notification-service/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/movie-catalog-service/pom.xml" />
+        <option value="$PROJECT_DIR$/activity-tracking-command-service/pom.xml" />
+        <option value="$PROJECT_DIR$/activity-tracking-query-service/pom.xml" />
       </list>
     </option>
   </component>

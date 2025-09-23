@@ -17,24 +17,14 @@ public class RabbitMqConfig {
 
     private final RabbitMqProperties rabbitMqProperties;
 
-    @Bean
-    public Queue registeredEventQueue() {
-        return new Queue(rabbitMqProperties.getRegisteredEventTopic());
-    }
+//    @Bean
+//    public Queue registeredEventQueue() {
+//        return new Queue(rabbitMqProperties.getRegisteredEventTopic());
+//    }
 
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange(rabbitMqProperties.getExchangeName());
-    }
-
-    @Bean
-    public Binding registeredEventBinding(
-            @Qualifier("registeredEventQueue") Queue queue,
-            DirectExchange exchange) {
-        return BindingBuilder
-                .bind(queue)
-                .to(exchange)
-                .with(rabbitMqProperties.getRegisteredEventRoutingKey());
+    public TopicExchange exchange() {
+        return new TopicExchange(rabbitMqProperties.getExchangeName());
     }
 
     @Bean

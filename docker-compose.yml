@@ -5,58 +5,141 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "${RABBITMQ_NODE_PORT}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
     networks:
       - noidea-network
     environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  axonserver:
+    image: axoniq/axonserver:latest
+    hostname: axonserver
+    volumes:
+      - axonserver-data:/data
+      - axonserver-eventdata:/eventdata
+    ports:
+      - "${AXON_DASHBOARD_PORT}:8024"
+      - "${AXON_GRPC_PORT}:8124"
+    networks:
+      - noidea-network
+    environment:
+      - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
 
   identity-service:
     build: ./identity-service
     container_name: identity-service
     ports:
-      - "12000:12000"
+      - "${IDENTITY_SERVICE_PORT}:${IDENTITY_SERVICE_INTERNAL_PORT}"
     networks:
       - noidea-network
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     environment:
-      SERVER_PORT: 12000
+      SERVER_PORT: ${IDENTITY_SERVICE_INTERNAL_PORT}
 
-      APPLICATION_SECURITY_JWT_SECRET_KEY: VGhpcy1pcy1teS1zZWN1cmUta2V5LTI1Ni1iaXRzLWxvbmc=
-      APPLICATION_SECURITY_JWT_EXPIRATION: 1h
-      APPLICATION_ACTION_TOKEN_VERIFICATION_EXPIRATION: 15m
+      APPLICATION_SECURITY_JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      APPLICATION_SECURITY_JWT_EXPIRATION: ${JWT_EXPIRATION}
+      APPLICATION_ACTION_TOKEN_VERIFICATION_EXPIRATION: ${ACTION_TOKEN_EXPIRATION}
 
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: user
-      SPRING_RABBITMQ_PASSWORD: password
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
 
 
   notification-service:
     build: ./notification-service
     container_name: notification-service
     ports:
-      - "12001:12001"
+      - "${NOTIFICATION_SERVICE_PORT}:${NOTIFICATION_SERVICE_INTERNAL_PORT}"
     networks:
       - noidea-network
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     environment:
-      SERVER_PORT: 12001
+      SERVER_PORT: ${NOTIFICATION_SERVICE_INTERNAL_PORT}
 
-      SPRING_MAIL_HOST: smtp.gmail.com
-      SPRING_MAIL_PORT: 587
-      SPRING_MAIL_USERNAME: noidea.app.sender@gmail.com
-      SPRING_MAIL_PASSWORD: mlkn cjrd uimg txby
+      SPRING_MAIL_HOST: ${MAIL_HOST}
+      SPRING_MAIL_PORT: ${MAIL_PORT}
+      SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
+      SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
 
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: user
-      SPRING_RABBITMQ_PASSWORD: password
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
+
+  movie-catalog-service:
+    build: ./movie-catalog-service
+    container_name: movie-catalog-service
+    ports:
+      - "${MOVIE_CATALOG_SERVICE_PORT}:${MOVIE_CATALOG_SERVICE_INTERNAL_PORT}"
+    networks:
+      - noidea-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: ${MOVIE_CATALOG_SERVICE_INTERNAL_PORT}
+
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
+
+  activity-tracking-command-service:
+    build: ./activity-tracking-command-service
+    container_name: activity-tracking-command-service
+    ports:
+      - "${ACTIVITY_TRACKING_COMMAND_SERVICE_PORT}:${ACTIVITY_TRACKING_COMMAND_SERVICE_INTERNAL_PORT}"
+    networks:
+      - noidea-network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      axonserver:
+        condition: service_started
+    environment:
+      SERVER_PORT: ${ACTIVITY_TRACKING_COMMAND_SERVICE_INTERNAL_PORT}
+
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
+      AXON_SERVER_ADDRESS: axonserver:${AXON_GRPC_PORT}
+
+  activity-tracking-query-service:
+    build: ./activity-tracking-query-service
+    container_name: activity-tracking-query-service
+    ports:
+      - "${ACTIVITY_TRACKING_QUERY_SERVICE_PORT}:${ACTIVITY_TRACKING_QUERY_SERVICE_INTERNAL_PORT}"
+    networks:
+      - noidea-network
+    depends_on:
+      axonserver:
+        condition: service_started
+    environment:
+      SERVER_PORT: ${ACTIVITY_TRACKING_QUERY_SERVICE_INTERNAL_PORT}
+
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
+      AXON_SERVER_ADDRESS: axonserver:${AXON_GRPC_PORT}
 
 networks:
   noidea-network:
     driver: bridge
+
+volumes:
+  axonserver-data:
+  axonserver-eventdata:

@@ -1,0 +1,6 @@
+schema: src/main/resources/graphql/schema.graphqls
+extensions:
+  endpoints:
+    Default:
+      url: http://localhost:${IDENTITY_SERVICE_PORT}/graphql
+      introspect: false

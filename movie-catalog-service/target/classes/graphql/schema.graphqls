@@ -1,0 +1,23 @@
+type Query {
+    findAllMovies: [MovieResponseDTO!]!
+}
+
+type Mutation {
+    addMovie(movieRequest: MovieRequestDTO!): MovieCreationResponseDTO
+}
+
+input MovieRequestDTO{
+    title: String!
+}
+
+type MovieResponseDTO{
+    id: String
+    title: String
+}
+
+type MovieCreationResponseDTO{
+    success: Boolean!
+    message: String!
+    id: String
+    title: String
+}

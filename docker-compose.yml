@@ -117,6 +117,25 @@ services:
       SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
       AXON_SERVER_ADDRESS: axonserver:${AXON_GRPC_PORT}
 
+  activity-tracking-query-service:
+    build: ./activity-tracking-query-service
+    container_name: activity-tracking-query-service
+    ports:
+      - "${ACTIVITY_TRACKING_QUERY_SERVICE_PORT}:${ACTIVITY_TRACKING_QUERY_SERVICE_INTERNAL_PORT}"
+    networks:
+      - noidea-network
+    depends_on:
+      axonserver:
+        condition: service_started
+    environment:
+      SERVER_PORT: ${ACTIVITY_TRACKING_QUERY_SERVICE_INTERNAL_PORT}
+
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_NODE_PORT}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
+      AXON_SERVER_ADDRESS: axonserver:${AXON_GRPC_PORT}
+
 networks:
   noidea-network:
     driver: bridge

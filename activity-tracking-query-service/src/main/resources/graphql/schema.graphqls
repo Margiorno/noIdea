@@ -1,5 +1,5 @@
 type Query {
-    getStatsAllMovies: [MovieStats!]!
+    getStatsAllMovies: [MovieStatsOutput!]!
 }
 
 type Mutation {
@@ -13,10 +13,10 @@ input GetMovieStatsInput {
 type GetMovieStatsOutput{
     success: Boolean!
     message: String!
-    stats: MovieStats
+    stats: MovieStatsOutput
 }
 
-type MovieStats{
+type MovieStatsOutput{
     id: String!
     viewsCounter: Int!
 }

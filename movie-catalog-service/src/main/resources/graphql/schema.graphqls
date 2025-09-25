@@ -1,18 +1,20 @@
 type Query {
-    findAllMovies: [MovieResponseDTO!]!
+    movies: [Movie!]!
+    movie(id: String!): Movie
 }
 
 type Mutation {
     addMovie(movieRequest: MovieRequestDTO!): MovieCreationResponseDTO
 }
 
-input MovieRequestDTO{
-    title: String!
+
+type Movie @key(fields: "id") {
+    id: String!
+    title: String
 }
 
-type MovieResponseDTO{
-    id: String
-    title: String
+input MovieRequestDTO{
+    title: String!
 }
 
 type MovieCreationResponseDTO{

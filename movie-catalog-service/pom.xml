@@ -57,6 +57,13 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.apollographql.federation</groupId>
+            <artifactId>federation-graphql-java-support</artifactId>
+            <version>2.3.0</version> <!-- Użyj najnowszej stabilnej wersji -->
+        </dependency>
     </dependencies>
 
     <build>

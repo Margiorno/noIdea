@@ -1,22 +1,19 @@
-type Query {
-    getStatsAllMovies: [MovieStatsOutput!]!
-}
+#type Query {
+#    getStatsAllMovies: [Movie!]!
+#    getMovieById(input: GetMovieStatsInput!): GetMovieStatsOutput
+#}
+#
+#input GetMovieStatsInput {
+#    movieId: String!
+#}
+#
+#type GetMovieStatsOutput{
+#    success: Boolean!
+#    message: String!
+#    movie: Movie
+#}
 
-type Mutation {
-    getMovieById(input: GetMovieStatsInput!): GetMovieStatsOutput
-}
-
-input GetMovieStatsInput {
-    movieId: String!
-}
-
-type GetMovieStatsOutput{
-    success: Boolean!
-    message: String!
-    stats: MovieStatsOutput
-}
-
-type MovieStatsOutput{
-    id: String!
+type Movie @key(fields: "id") {
+    id: String! @external
     viewsCounter: Int!
 }

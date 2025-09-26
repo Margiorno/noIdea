@@ -24,10 +24,12 @@
         <bouncycastle.version>1.81</bouncycastle.version>
         <lang3.version>3.18.0</lang3.version>
         <axon.version>4.12.1</axon.version>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
     </properties>
 
     <modules>
         <module>common-library</module>
+        <module>gateway</module>
         <module>identity-service</module>
         <module>notification-service</module>
         <module>movie-catalog-service</module>
@@ -67,6 +69,13 @@
                 <groupId>org.axonframework</groupId>
                 <artifactId>axon-bom</artifactId>
                 <version>${axon.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

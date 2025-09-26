@@ -32,6 +32,23 @@ services:
     environment:
       - 'AXONIQ_AXONSERVER_STANDALONE=TRUE'
 
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "${API_GATEWAY_PORT}:${API_GATEWAY_INTERNAL_PORT}"
+    networks:
+      - noidea-network
+    depends_on:
+      - identity-service
+      - movie-catalog-service
+      - activity-tracking-query-service
+      - activity-tracking-command-service
+    environment:
+      SERVER_PORT: ${API_GATEWAY_INTERNAL_PORT}
+
+
+
   identity-service:
     build: ./identity-service
     container_name: identity-service

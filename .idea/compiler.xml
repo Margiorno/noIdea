@@ -16,9 +16,9 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
+        <module name="activity-tracking-command-service" />
         <module name="activity-tracking-query-service" />
         <module name="common-dto" />
-        <module name="activity-tracking-command-service" />
         <module name="identity-service" />
         <module name="movie-catalog-service" />
         <module name="notification-service" />

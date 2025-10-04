@@ -47,6 +47,8 @@ services:
     environment:
       SERVER_PORT: ${API_GATEWAY_INTERNAL_PORT}
 
+      APPLICATION_SECURITY_JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+
       IDENTITY_SERVICE_URI: http://identity-service:${IDENTITY_SERVICE_INTERNAL_PORT}/graphql
       MOVIE_CATALOG_SERVICE_URI: http://movie-catalog-service:${MOVIE_CATALOG_SERVICE_INTERNAL_PORT}/graphql
       ACTIVITY_QUERY_SERVICE_URI: http://activity-tracking-query-service:${ACTIVITY_TRACKING_QUERY_SERVICE_INTERNAL_PORT}/graphql

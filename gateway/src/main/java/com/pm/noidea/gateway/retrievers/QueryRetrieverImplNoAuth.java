@@ -1,4 +1,4 @@
-package com.pm.noidea.gateway.lilo;
+package com.pm.noidea.gateway.retrievers;
 
 import io.fria.lilo.GraphQLQuery;
 import io.fria.lilo.LiloContext;

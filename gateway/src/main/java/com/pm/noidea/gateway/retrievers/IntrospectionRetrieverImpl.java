@@ -1,9 +1,8 @@
-package com.pm.noidea.gateway.lilo;
+package com.pm.noidea.gateway.retrievers;
 
-import io.fria.lilo.GraphQLQuery;
 import io.fria.lilo.LiloContext;
 import io.fria.lilo.SchemaSource;
-import io.fria.lilo.SyncQueryRetriever;
+import io.fria.lilo.SyncIntrospectionRetriever;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -12,12 +11,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
-public class QueryRetrieverImpl implements SyncQueryRetriever {
+public class IntrospectionRetrieverImpl implements SyncIntrospectionRetriever {
 
     private final String schemaUrl;
     private final RestTemplate restTemplate;
 
-    public QueryRetrieverImpl(@NotNull String schemaUrl) {
+    public IntrospectionRetrieverImpl(@NotNull String schemaUrl) {
         this.schemaUrl = schemaUrl;
         this.restTemplate = new RestTemplateBuilder()
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -28,7 +27,7 @@ public class QueryRetrieverImpl implements SyncQueryRetriever {
     public @NotNull String get(
             @NotNull LiloContext liloContext,
             @NotNull SchemaSource schemaSource,
-            @NotNull GraphQLQuery graphQLQuery,
+            @NotNull String query,
             @Nullable Object localContext) {
 
         final HttpHeaders headers = new HttpHeaders();
@@ -36,10 +35,7 @@ public class QueryRetrieverImpl implements SyncQueryRetriever {
 
         return Objects.requireNonNull(
                 this.restTemplate.exchange(
-                        this.schemaUrl,
-                        HttpMethod.POST,
-                        new HttpEntity<>(graphQLQuery.getQuery(), headers),
-                        String.class
+                        this.schemaUrl, HttpMethod.POST, new HttpEntity<>(query, headers), String.class
                 ).getBody()
         );
     }

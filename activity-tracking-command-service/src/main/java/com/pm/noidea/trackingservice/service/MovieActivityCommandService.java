@@ -17,25 +17,26 @@ public class MovieActivityCommandService {
     private final UserService userService;
     private final CommandGateway commandGateway;
 
-    public CompletableFuture<RegisterViewOutput> registerVideoView(RegisterViewInput input) {
-        UUID userId;
-        UUID movieId;
+    public CompletableFuture<RegisterViewOutput> registerVideoView(RegisterViewInput input, String userId) {
+
+        UUID userUuid;
+        UUID movieUuid;
 
         try {
-            userId = UUID.fromString(input.getUserId());
-            movieId = UUID.fromString(input.getMovieId());
+            userUuid = UUID.fromString(userId);
+            movieUuid = UUID.fromString(input.getMovieId());
         } catch (IllegalArgumentException e) {
             return CompletableFuture.completedFuture(
                     new RegisterViewOutput(false, "Invalid id format")
             );
         }
 
-        if (!userService.existsByUserId(userId))
+        if (!userService.existsByUserId(userUuid))
             return CompletableFuture.completedFuture(
                     new RegisterViewOutput(false, "User not found")
             );
 
-        ViewRegisterCommand command = new ViewRegisterCommand(movieId, userId);
+        ViewRegisterCommand command = new ViewRegisterCommand(movieUuid, userUuid);
         return commandGateway.send(command)
                 .thenApply(result -> new RegisterViewOutput(true, "Command sent successfully"));
     }

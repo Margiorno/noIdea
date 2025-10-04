@@ -7,7 +7,6 @@ type Mutation {
 }
 
 input RegisterViewInput {
-    userId: String!
     movieId: String!
 }
 
